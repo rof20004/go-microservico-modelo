@@ -1,0 +1,21 @@
+syntax = "proto3";
+package mensagem;
+
+import "google/api/annotations.proto";
+
+service MensagemService {
+  rpc Echo(MensagemRequest) returns (MensagemResponse) {
+    option (google.api.http) = {
+        post: "/v1/mensagem"
+        body: "*"
+    };
+  }
+}
+
+message MensagemRequest {
+ string entrada = 1;
+}
+
+message MensagemResponse {
+ string saida = 1;
+}
