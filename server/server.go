@@ -112,7 +112,6 @@ func Run() error {
 
 	fmt.Printf("Serviço gRPC/REST MENSAGEM iniciado às %q na porta %s\n", time.Now(), os.Getenv("PORT"))
 	err = srv.Serve(tls.NewListener(conn, srv.TLSConfig))
-
 	if err != nil {
 		return err
 	}
