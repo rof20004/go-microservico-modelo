@@ -7,10 +7,6 @@ import (
 	"log"
 )
 
-const (
-	port = 10000
-)
-
 var (
 	demoKeyPair  *tls.Certificate
 	demoCertPool *x509.CertPool
@@ -29,5 +25,5 @@ func init() {
 	if !ok {
 		log.Fatal("Certificado inválido")
 	}
-	demoAddr = fmt.Sprintf("localhost:%d", port)
+	demoAddr = fmt.Sprintf("localhost")
 }

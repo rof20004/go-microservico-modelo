@@ -13,13 +13,17 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
+	"os"
+
+	"errors"
+
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	pb "github.com/rof20004/mensagem_microservico"
 	"golang.org/x/net/context"
 )
 
 var (
-	address  = "localhost:10000"
+	address  = fmt.Sprintf("localhost:%s", os.Getenv("PORT"))
 	endpoint = flag.String("mensagem_endpoint", address, "Serviço Mensagem")
 )
 
@@ -61,6 +65,10 @@ func grpcHandlerFunc(grpcServer *grpc.Server, otherHandler http.Handler) http.Ha
 
 // Run -> start rpc server
 func Run() error {
+	if os.Getenv("PORT") == "" {
+		return errors.New("No PORT selected")
+	}
+
 	opts := []grpc.ServerOption{
 		grpc.Creds(credentials.NewClientTLSFromCert(demoCertPool, address))}
 
@@ -88,7 +96,7 @@ func Run() error {
 	mux.Handle("/", gwmux)
 	// serveSwagger(mux)
 
-	conn, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
+	conn, err := net.Listen("tcp", fmt.Sprintf(":%s", os.Getenv("PORT")))
 	if err != nil {
 		return err
 	}
@@ -102,7 +110,7 @@ func Run() error {
 		},
 	}
 
-	fmt.Printf("Serviço gRPC/REST MENSAGEM iniciado às %q na porta %d\n", time.Now(), port)
+	fmt.Printf("Serviço gRPC/REST MENSAGEM iniciado às %q na porta %s\n", time.Now(), os.Getenv("PORT"))
 	err = srv.Serve(tls.NewListener(conn, srv.TLSConfig))
 
 	if err != nil {
