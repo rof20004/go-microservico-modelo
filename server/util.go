@@ -4,8 +4,7 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
-
-	"github.com/golang/glog"
+	"log"
 )
 
 const (
@@ -22,13 +21,13 @@ func init() {
 	var err error
 	pair, err := tls.X509KeyPair([]byte(Cert), []byte(Key))
 	if err != nil {
-		glog.Fatal(err)
+		log.Fatal(err.Error())
 	}
 	demoKeyPair = &pair
 	demoCertPool = x509.NewCertPool()
 	ok := demoCertPool.AppendCertsFromPEM([]byte(Cert))
 	if !ok {
-		glog.Fatal("bad certs")
+		log.Fatal("Certificado inválido")
 	}
 	demoAddr = fmt.Sprintf("localhost:%d", port)
 }

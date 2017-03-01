@@ -4,6 +4,7 @@ import (
 	"crypto/tls"
 	"flag"
 	"fmt"
+	"log"
 	"net"
 	"net/http"
 	"strings"
@@ -12,7 +13,6 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
-	"github.com/golang/glog"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	pb "github.com/rof20004/mensagem_microservico"
 	"golang.org/x/net/context"
@@ -114,6 +114,6 @@ func Run() error {
 
 func main() {
 	if err := Run(); err != nil {
-		glog.Fatal(err.Error())
+		log.Fatal(err.Error())
 	}
 }
